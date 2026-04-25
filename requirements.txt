@@ -1,0 +1,21 @@
+# Core dependencies
+flask==3.0.0
+flask-cors==4.0.0
+pandas==2.1.4
+google-generativeai==0.8.3
+google-api-python-client==2.108.0
+
+# Server
+gunicorn==21.2.0
+
+# Sentiment Analysis
+vaderSentiment==3.3.2
+
+# YouTube Transcript
+youtube-transcript-api==0.6.2
+
+# HTTP requests
+requests==2.31.0
+
+# Environment variables (recommended)
+python-dotenv==1.0.0
