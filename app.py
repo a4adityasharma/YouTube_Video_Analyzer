@@ -19,7 +19,7 @@ app = Flask(__name__)
 CORS(app) 
 analyzer = SentimentIntensityAnalyzer()
 
-YOUTUBE_API_KEY = "AIzaSyBCBYNEs2ieFKj-fabToczAiXbWH-kZK04" 
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
