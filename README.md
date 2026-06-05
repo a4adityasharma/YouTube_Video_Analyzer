@@ -1,14 +1,5 @@
 # Sentilytics
 
----
-title: YouTube Sentiment Analytics Platform
-emoji: 🎥
-colorFrom: blue
-colorTo: purple
-sdk: static
-pinned: true
----
-
 > **AI-powered YouTube sentiment intelligence**
 
 Sentilytics helps you decide whether a YouTube video is worth watching by analyzing comment sentiment, engagement signals, and optional AI content verification.
