@@ -1,115 +1,137 @@
 # Sentilytics
 
-AI-powered YouTube sentiment and engagement analysis.
+> **AI-powered YouTube sentiment intelligence**
 
-Sentilytics is a web app that analyzes YouTube videos by combining live comment sentiment scoring, engagement metrics, and AI content verification. The frontend is built with React, Tailwind, and TanStack Router, while the backend uses Flask plus the YouTube Data API and optional Gemini AI verification.
+Sentilytics helps you decide whether a YouTube video is worth watching by analyzing comment sentiment, engagement signals, and optional AI content verification.
 
-## Features
+---
 
-- Analyze YouTube video sentiment from comments
-- Display estimated positive / neutral / negative sentiment ratios
-- Show engagement, likes, views, and AI-powered content verdicts
-- Built with a modern React + Vite frontend
-- Flask backend for YouTube API access, comment analysis, and transcript / AI verification
+## 🎯 What it does
 
-## Tech stack
+- Reads YouTube comments and scores sentiment automatically
+- Displays clean positive / neutral / negative ratios
+- Estimates engagement and surface-level likes/views metrics
+- Provides an AI-backed verdict for content quality when Gemini is enabled
+- Ships as a polished React + Tailwind frontend with a Flask analysis backend
 
-- Frontend
-  - React 19
-  - Vite
-  - TanStack Router
-  - TanStack React Query
-  - Tailwind CSS
-  - Radix UI primitives
-  - Lucide icons
-- Backend
-  - Python 3
-  - Flask
-  - Flask-CORS
-  - vaderSentiment
-  - google-api-python-client
-  - youtube-transcript-api
-  - dotenv
-  - google-generative-ai (Gemini)
+---
 
-## Getting started
+## ✨ Why it’s useful
 
-### Prerequisites
+- Quickly evaluate a video before committing time
+- Detect clickbait or poor audience reaction
+- Compare sentiment trends across content creators
+- Build a smarter YouTube discovery MVP with real-time feedback
 
-- Node.js 20+ and npm / pnpm
-- Python 3.11+ or compatible Python 3 runtime
-- YouTube Data API key
-- Optional: Google Gemini API key for AI verification
+---
 
-### Setup
+## 🚀 Tech stack
 
-1. Install frontend dependencies:
+### Frontend
+- React 19
+- Vite
+- TanStack Router
+- TanStack React Query
+- Tailwind CSS
+- Radix UI
+- Lucide icons
 
-   ```bash
-   npm install
-   ```
+### Backend
+- Python 3
+- Flask
+- Flask-CORS
+- `vaderSentiment`
+- `google-api-python-client`
+- `youtube-transcript-api`
+- `python-dotenv`
+- `google-generative-ai` (Gemini)
 
-2. Create a Python virtual environment and install backend dependencies:
+---
 
-   ```bash
-   python -m venv .venv
-   source .venv/Scripts/activate
-   pip install -r requirements.txt
-   ```
+## 🧩 Setup
 
-3. Create a `.env` file at the project root with the following values:
+### 1. Install dependencies
 
-   ```env
-   YOUTUBE_API_KEY=your_youtube_api_key
-   GEMINI_API_KEY=your_gemini_api_key
-   ```
+```bash
+npm install
+```
 
-   - `GEMINI_API_KEY` is optional. If missing, the app will still analyze comments but will skip AI verification.
+### 2. Setup Python backend
 
-### Running locally
+```bash
+python -m venv .venv
+source .venv/Scripts/activate
+pip install -r requirements.txt
+```
 
-Start the backend Flask server:
+### 3. Configure environment variables
+
+Create a `.env` file in the project root:
+
+```env
+YOUTUBE_API_KEY=your_youtube_api_key
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+> `GEMINI_API_KEY` is optional. Without it, Sentilytics will still analyze comments, but AI transcript verification will be disabled.
+
+---
+
+## ▶️ Run locally
+
+Start the backend:
 
 ```bash
 python app.py
 ```
 
-Then start the frontend development server:
+Start the frontend:
 
 ```bash
 npm run dev
 ```
 
-Open the Vite URL shown in the terminal, and use the app to analyze YouTube video URLs.
+Then open the local Vite URL shown in your terminal.
 
-## Scripts
+---
 
-- `npm run dev` — start the frontend development server
-- `npm run build` — build the frontend for production
-- `npm run preview` — preview the built frontend
-- `npm run lint` — run ESLint
-- `npm run format` — format files with Prettier
+## 🛠️ Available scripts
 
-## Environment variables
+- `npm run dev` — start frontend development server
+- `npm run build` — build frontend for production
+- `npm run preview` — preview the production build
+- `npm run lint` — run ESLint checks
+- `npm run format` — format code with Prettier
 
-- `YOUTUBE_API_KEY` — required to fetch video metadata and comments from the YouTube Data API
-- `GEMINI_API_KEY` — optional AI key used for transcript-based content verification
+---
 
-## Project structure
+## 🔑 Environment variables
+
+- `YOUTUBE_API_KEY` — required to fetch YouTube video metadata and comments
+- `GEMINI_API_KEY` — optional AI key for transcript and commentary analysis
+
+---
+
+## 📁 Project structure
 
 - `app.py` — Flask backend entrypoint and analysis API
 - `src/` — React frontend source code
-- `src/routes/` — app routes and page components
-- `src/styles.css` — app styling and Tailwind imports
+- `src/routes/` — app page routes and components
+- `src/styles.css` — Tailwind CSS styling
 - `package.json` — frontend dependencies and scripts
-- `bunfig.toml` — package manager install guard configuration
+- `bunfig.toml` — package install guard configuration
 
-## Notes
+---
 
-- The frontend calls `/analyze?url=...` on the backend, so both servers should be running concurrently in development.
-- If comments are unavailable or disabled for a video, the backend returns a fallback response.
-- AI verification will only run if `GEMINI_API_KEY` is configured.
+## 💡 Notes
 
-## License
+- The frontend contacts the backend at `/analyze?url=...`.
+- Both frontend and backend should run together during development.
+- If comments are missing or disabled, the backend returns a graceful fallback.
+- Gemini AI verification requires a valid `GEMINI_API_KEY`.
 
-This repository currently does not specify a license. Add a `LICENSE` file if you want to make this project open source.
+---
+
+## 📜 License
+
+This repo does not currently define a license. Add a `LICENSE` file to make the project open source.
