@@ -1,9 +1,11 @@
+import pandas as pd
 import os
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from googleapiclient.discovery import build
 from urllib.parse import urlparse, parse_qs
+from youtube_comment_downloader import YoutubeCommentDownloader
 from dotenv import load_dotenv
 import google.generativeai as genai
 from youtube_transcript_api import YouTubeTranscriptApi
@@ -47,7 +49,7 @@ def get_video_id(url):
     except Exception:
         return None
 
-def fetch_comments(video_id, max_comments=1000):
+def fetch_comments(video_id, max_comments=200):
     """Fetches comments and basic video metadata using the YouTube API."""
     if not youtube:
         return {"error": "API client failed to initialize."}, None
@@ -78,30 +80,17 @@ def fetch_comments(video_id, max_comments=1000):
     except Exception as e:
         return {"error": f"Error fetching video data: {e}"}, None
 
-    # 2. Fetch comments in pages
+    # 2. Fetch comments using Scrapper
     try:
-        while len(comments) < max_comments:
-            comment_threads = youtube.commentThreads().list(
-                part="snippet",
-                videoId=video_id,
-                textFormat="plainText",
-                maxResults=min(50, max_comments - len(comments)),
-                pageToken=next_page_token
-            ).execute()
-
-            for item in comment_threads.get('items', []):
-                comment_snippet = item['snippet']['topLevelComment']['snippet']
-
-                comments.append({
-                    'author': comment_snippet.get('authorDisplayName', 'Anonymous'),
-                    'comment': comment_snippet.get('textDisplay', '')
-                })
-
-                if len(comments) >= max_comments:
-                    break
-
-            next_page_token = comment_threads.get('nextPageToken')
-            if not next_page_token:
+        video_url = f"https://www.youtube.com/watch?v={video_id}"
+        downloader = YoutubeCommentDownloader()
+        
+        for c in downloader.get_comments_from_url(video_url, sort_by=0): # 0: TOP
+            comments.append({
+                'author': c.get('author', 'Anonymous'),
+                'comment': c.get('text', '')
+            })
+            if len(comments) >= max_comments:
                 break
     except Exception as e:
         # This often happens if comments are disabled
@@ -109,8 +98,6 @@ def fetch_comments(video_id, max_comments=1000):
              return {"error": "Comments are disabled or API quota exceeded."}, None
         # If we got some comments before the error, we proceed with what we have
         print(f"Warning: Stopped fetching comments early due to error: {e}")
-
-    return comments, video_data
 
 
 def fetch_transcript(video_id):
