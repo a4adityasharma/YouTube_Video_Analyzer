@@ -49,7 +49,7 @@ def get_video_id(url):
     except Exception:
         return None
 
-def fetch_comments(video_id, max_comments=200):
+def fetch_comments(video_id, max_comments=1000):
     """Fetches comments and basic video metadata using the YouTube API."""
     if not youtube:
         return {"error": "API client failed to initialize."}, None
